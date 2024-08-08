@@ -91,8 +91,8 @@ def main():
 
         # Se o caminho tem mais de 3 elementos, identificamos o ponto de integração
         if len(caminho) > 3:
-            ponto_b = caminho[2]
-            print(f"Ponto de integração: Parada {ponto_b}")
+            ponto_c = caminho[2]
+            print(f"Ponto de integração: Parada {ponto_c}")
     else:
         # Se nenhum caminho foi encontrado
         print("Nenhum caminho encontrado.")
