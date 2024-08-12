@@ -20,6 +20,6 @@ def main(origem, destino):
         print("Falha na conexão com o banco de dados.")
 
 if __name__ == "__main__":
-    origem = 'parada_A'  # Insira o código da parada de origem
-    destino = 'parada_B'  # Insira o código da parada de destino
+    origem = '1235'  # Insira o código da parada de origem
+    destino = '3447'  # Insira o código da parada de destino
     main(origem, destino)

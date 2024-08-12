@@ -4,5 +4,6 @@ def heuristic(parada_atual, parada_destino):
     return calcular_distancia(parada_atual, parada_destino)
 
 def calcular_distancia(parada_atual, parada_destino):
-    # Exemplo simples de cálculo de distância, pode ser substituído por algo mais complexo
-    return abs(parada_atual - parada_destino)
+    # Usar a diferença entre os valores hash como uma heurística simples
+    return abs(hash(parada_atual) - hash(parada_destino))
+
