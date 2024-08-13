@@ -1,40 +1,26 @@
 import heapq
-from collections import defaultdict
-from utils import heuristic
 
-def a_star_search(graph, origem, destino):
-    open_set = []
-    heapq.heappush(open_set, (0, origem))
-    
-    came_from = {}
-    g_score = defaultdict(lambda: float('inf'))
-    g_score[origem] = 0
-    
-    f_score = defaultdict(lambda: float('inf'))
-    f_score[origem] = heuristic(origem, destino)
-    
-    while open_set:
-        _, current = heapq.heappop(open_set)
-        
-        if current == destino:
-            return reconstruct_path(came_from, current)
-        
-        for linha, neighbor in graph[current]:
-            tentative_g_score = g_score[current] + 1  # Supondo um custo uniforme por parada
-            
-            if tentative_g_score < g_score[neighbor]:
-                came_from[neighbor] = (current, linha)
-                g_score[neighbor] = tentative_g_score
-                f_score[neighbor] = g_score[neighbor] + heuristic(neighbor, destino)
-                
-                if neighbor not in open_set:
-                    heapq.heappush(open_set, (f_score[neighbor], neighbor))
-    
-    return "No Path Found"
+# Função heurística simples (número de trocas mínimas)
+def heuristica(parada_atual, destino):
+    return abs(parada_atual - destino)
 
-def reconstruct_path(came_from, current):
-    total_path = []
-    while current in came_from:
-        current, linha = came_from[current]
-        total_path.append((current, linha))
-    return total_path[::-1]
+# Função A* para encontrar o caminho mais eficiente entre duas paradas
+def encontrar_caminho_com_integracao_astar(grafo, origem, destino):
+    fila = [(0, origem, [])]  # (custo_total, parada_atual, caminho)
+    visitados = set()
+
+    while fila:
+        custo, parada_atual, caminho = heapq.heappop(fila)
+
+        if parada_atual == destino:
+            return caminho + [parada_atual]
+
+        if parada_atual not in visitados:
+            visitados.add(parada_atual)
+
+            for vizinho, linha in grafo[parada_atual]:
+                if vizinho not in visitados:
+                    custo_estimado = custo + 1 + heuristica(vizinho, destino)
+                    heapq.heappush(fila, (custo_estimado, vizinho, caminho + [parada_atual, linha]))
+
+    return None

@@ -1,9 +1,15 @@
-def heuristic(parada_atual, parada_destino):
-    # Implementar uma função que calcula a distância geográfica
-    # Aqui usamos uma heurística simples, como distância euclidiana
-    return calcular_distancia(parada_atual, parada_destino)
+import pickle
 
-def calcular_distancia(parada_atual, parada_destino):
-    # Usar a diferença entre os valores hash como uma heurística simples
-    return abs(hash(parada_atual) - hash(parada_destino))
+def salvar_grafo(grafo, caminho_arquivo='grafo.pkl'):
+    """Salva o grafo em um arquivo usando pickle."""
+    with open(caminho_arquivo, 'wb') as f:
+        pickle.dump(grafo, f)
 
+def carregar_grafo(caminho_arquivo='grafo.pkl'):
+    """Carrega o grafo de um arquivo usando pickle."""
+    try:
+        with open(caminho_arquivo, 'rb') as f:
+            grafo = pickle.load(f)
+        return grafo
+    except FileNotFoundError:
+        return None
