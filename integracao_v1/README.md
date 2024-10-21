@@ -100,3 +100,91 @@ O módulo `utils.py` contém funções auxiliares, como as de serialização e d
 
 ### **Conclusão**
 Este projeto fornece uma base sólida para um sistema de roteamento de ônibus com suporte a integrações entre linhas. A escolha de uma arquitetura modular, combinada com o uso de técnicas de otimização como a serialização do grafo, garante um desempenho eficiente e facilita futuras expansões e melhorias.
+
+
+---
+
+Para utilizar o endpoint `/route/` que foi implementado, você pode fazer uma requisição HTTP do tipo GET, passando como parâmetros de consulta (`query parameters`) as paradas de origem e destino.
+
+Aqui estão os detalhes de como utilizá-lo:
+
+### **URL do Endpoint:**
+```
+GET /route/?origem={id_origem}&destino={id_destino}
+```
+
+### **Parâmetros de Consulta (Query Parameters):**
+- `origem`: ID da parada de origem (inteiro).
+- `destino`: ID da parada de destino (inteiro).
+
+### **Exemplo de Requisição:**
+
+#### **Via Navegador ou Cliente HTTP (como Postman ou Insomnia):**
+Você pode acessar diretamente no navegador (se os IDs das paradas forem, por exemplo, 1 e 10):
+
+```
+http://127.0.0.1:8000/route/?origem=1&destino=10
+```
+
+Ou, em uma ferramenta como o Postman ou Insomnia, faça uma requisição GET para essa URL.
+
+#### **Via `curl` (linha de comando):**
+
+Se você quiser testar pela linha de comando com `curl`, o comando seria:
+
+```bash
+curl "http://127.0.0.1:8000/route/?origem=1&destino=10"
+```
+
+### **Resposta Esperada (Exemplo):**
+Se o caminho entre as paradas de origem e destino for encontrado, a resposta será um JSON com a descrição da rota:
+
+```json
+{
+  "rota": [
+    {
+      "parada_origem": 1,
+      "linha": "Linha A",
+      "parada_destino": 5
+    },
+    {
+      "parada_origem": 5,
+      "linha": "Linha B",
+      "parada_destino": 10
+    }
+  ]
+}
+```
+
+Caso não seja possível encontrar uma rota, a resposta será um erro com status HTTP `404`:
+
+```json
+{
+  "detail": "Nenhuma rota encontrada"
+}
+```
+
+### Explicação do funcionamento:
+- **origem**: ID da parada onde a viagem começa.
+- **destino**: ID da parada onde a viagem termina.
+- A API usa o algoritmo A* para encontrar a rota mais eficiente e retorna as paradas intermediárias e as linhas que conectam as paradas, incluindo as integrações (troca de linhas, se houver).
+
+### Teste de rota completa no seu código:
+1. Inicie o servidor com o FastAPI (`uvicorn`).
+2. Acesse o endpoint conforme o exemplo acima, fornecendo os IDs das paradas de origem e destino que existem no seu banco de dados SQLite.
+
+Caso queira adicionar mais funcionalidades ou melhorar o tratamento de erros no endpoint, me avise que posso ajustar o código!
+
+Isso esclarece como usar o endpoint `/route`? Se precisar de mais detalhes, estou à disposição.
+
+---
+
+Instalação fast api:
+
+```bash
+pip install fastapi uvicorn
+```
+
+```bash
+uvicorn api.api:app --reload
+```
