@@ -10,7 +10,7 @@ def get_db_connection():
     return conn
 
 # Endpoint para buscar dados com base no codDftrans
-@app.get("/dados/{codDftrans}")
+@app.get("/parada/{codDftrans}")
 def get_dados(codDftrans: str):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -45,4 +45,4 @@ def get_dados(codDftrans: str):
 # Executar a aplicação usando o Uvicorn
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8001)
