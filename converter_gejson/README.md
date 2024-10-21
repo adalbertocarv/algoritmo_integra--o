@@ -263,3 +263,63 @@ A resposta da API será no formato GeoJSON:
 Este projeto exemplifica como transformar dados geoespaciais no formato GeoJSON em uma tabela de banco de dados SQLite e como disponibilizar esses dados em uma API acessível, retornando-os no formato GeoJSON, utilizando FastAPI.
 
 Essas ferramentas fornecem uma solução rápida, leve e eficiente para trabalhar com dados geoespaciais em Python, facilitando consultas e a integração com sistemas de terceiros.
+
+---
+## **Documentação Curta: Consulta de Múltiplos `codDftrans`**
+
+### **Descrição**
+Essa atualização permite consultar múltiplas paradas de ônibus simultaneamente, utilizando o campo `codDftrans` como parâmetro na URL. A API retorna os dados no formato GeoJSON para todos os pontos encontrados que correspondem aos valores fornecidos de `codDftrans`.
+
+### **Requisição**
+
+A API agora aceita múltiplos valores para `codDftrans` como query parameters na URL.
+
+#### **Exemplo de URL**
+```
+http://127.0.0.1:8000/dados/?codDftrans=4973&codDftrans=3293
+```
+
+### **Resposta**
+
+A resposta será um GeoJSON `FeatureCollection` contendo todos os pontos correspondentes aos valores fornecidos de `codDftrans`.
+
+#### **Exemplo de Resposta**
+```json
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-47.959784, -15.880183]
+            },
+            "properties": {
+                "sequencial": 6543,
+                "sentido": "BAIRRO-CENTRO",
+                "codDftrans": "4973"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-48.114039, -15.809688]
+            },
+            "properties": {
+                "sequencial": 2787,
+                "sentido": "BAIRRO-CENTRO",
+                "codDftrans": "3293"
+            }
+        }
+    ]
+}
+```
+
+### **Notas**
+- A API aceita múltiplos valores de `codDftrans` utilizando query strings (`?codDftrans=valor1&codDftrans=valor2`).
+- O retorno é sempre um objeto GeoJSON no formato `FeatureCollection`, contendo todas as paradas que correspondem aos valores fornecidos.
+
+---
+
+Isso permite consultas eficientes e consolidadas de várias paradas ao mesmo tempo.
