@@ -10,7 +10,7 @@ def get_db_connection():
     return conn
 
 # Endpoint para buscar dados com base em múltiplos valores de codDftrans
-@app.get("/paradas/")
+@app.get("/paradas/geo/")
 def get_dados(codDftrans: list[str] = Query(...)):
     conn = get_db_connection()
     cursor = conn.cursor()
